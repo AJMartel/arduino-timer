@@ -87,7 +87,7 @@ unsigned long  at(unsigned long time, handler_t handler, void *opaque = NULL);
 unsigned long  every(unsigned long interval, handler_t handler, void *opaque = NULL);
 
 /* Cancel a task before it gets executed */
-void remove(unsigned long task_id);
+bool cancel(unsigned long task_id);
 
 NOTE: at, in, every return a task_id
 ```
