@@ -91,8 +91,11 @@ class Timer {
             struct task * const task = &tasks[i];
             if (id == task->id) {
                 remove(task);
+                return true;
             }
        }
+
+       return false;
     }
 
     /* Ticks the timer forward - call this function in loop() */
