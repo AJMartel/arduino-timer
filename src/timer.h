@@ -56,7 +56,7 @@ class Timer {
     typedef bool (*handler_t)(void *opaque); /* task handler func signature */
 
     /* Calls handler with opaque as argument in delay units of time */
-    int
+    unsigned long 
     in(unsigned long delay, handler_t h, void *opaque = NULL)
     {
          struct task *_task;
@@ -65,7 +65,7 @@ class Timer {
     }
 
     /* Calls handler with opaque as argument at time */
-    int
+    unsigned long 
     at(unsigned long time, handler_t h, void *opaque = NULL)
     {   
         struct task *_task;
@@ -75,7 +75,7 @@ class Timer {
     }
 
     /* Calls handler with opaque as argument every interval units of time */
-    int
+    unsigned long 
     every(unsigned long interval, handler_t h, void *opaque = NULL)
     {
         struct task *_task;
@@ -85,7 +85,7 @@ class Timer {
 
     /* Cancel a task by id*/
     bool
-    cancel(int id)
+    cancel(unsigned long id)
     {
        for (size_t i = 0; i < max_tasks; ++i) {
             struct task * const task = &tasks[i];
@@ -123,7 +123,7 @@ class Timer {
   private:
 
     struct task {
-        int id;        
+        unsigned long id;        
         handler_t handler; /* task handler callback func */
         void *opaque; /* argument given to the callback handler */
         unsigned long start,
@@ -164,7 +164,7 @@ class Timer {
 
         if (!slot) return NULL;
 
-        slot->id = random(32767);
+        slot->id = random(2147483646);
         slot->handler = h;
         slot->opaque = opaque;
         slot->start = start;

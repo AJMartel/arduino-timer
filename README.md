@@ -76,13 +76,18 @@ bool handler(void *argument);
 void tick();
 
 /* Calls handler with opaque as argument in delay units of time */
-bool in(unsigned long delay, handler_t handler, void *opaque = NULL);
+unsigned long  in(unsigned long delay, handler_t handler, void *opaque = NULL);
 
 /* Calls handler with opaque as argument at time */
-bool at(unsigned long time, handler_t handler, void *opaque = NULL);
+unsigned long  at(unsigned long time, handler_t handler, void *opaque = NULL);
 
 /* Calls handler with opaque as argument every interval units of time */
-bool every(unsigned long interval, handler_t handler, void *opaque = NULL);
+unsigned long  every(unsigned long interval, handler_t handler, void *opaque = NULL);
+
+/* Calls handler with opaque as argument every interval units of time */
+void remove(unsigned long interval, handler_t handler, void *opaque = NULL);
+
+NOTE: at, in, every return a task_id
 ```
 
 ### Installation
