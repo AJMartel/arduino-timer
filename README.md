@@ -1,6 +1,7 @@
 # arduino-timer - library for delaying function calls
 
-Simple *non-blocking* timer library for calling functions **in / at / every** specified units of time. Supports millis, micros, time rollover, and compile time configurable number of tasks.
+THIS VERSION IS A FORK OF https://github.com/contrem/arduino-timer AND ADDS A FUNCTION TO CANCEL A TASK.
+Simple *non-blocking* timer library for calling functions **in / at / every / cancel ** specified units of time. Supports millis, micros, time rollover, and compile time configurable number of tasks.
 
 ### Use It
 
