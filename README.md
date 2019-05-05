@@ -84,8 +84,8 @@ unsigned long  at(unsigned long time, handler_t handler, void *opaque = NULL);
 /* Calls handler with opaque as argument every interval units of time */
 unsigned long  every(unsigned long interval, handler_t handler, void *opaque = NULL);
 
-/* Calls handler with opaque as argument every interval units of time */
-void remove(unsigned long interval, handler_t handler, void *opaque = NULL);
+/* Cancel a task before it gets executed */
+void remove(unsigned long task_id);
 
 NOTE: at, in, every return a task_id
 ```
