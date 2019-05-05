@@ -2,6 +2,7 @@
    arduino-timer - library for delaying function calls
 
    Copyright (c) 2018, Michael Contreras
+   This version has been modified by Pierluigi Petrelli
    All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
@@ -55,25 +56,43 @@ class Timer {
     typedef bool (*handler_t)(void *opaque); /* task handler func signature */
 
     /* Calls handler with opaque as argument in delay units of time */
-    bool
+    int
     in(unsigned long delay, handler_t h, void *opaque = NULL)
     {
-        return add_task(time_func(), delay, h, opaque);
+         struct task *_task;
+         _task = add_task(time_func(), delay, h, opaque);
+         return _task->id;
     }
 
     /* Calls handler with opaque as argument at time */
-    bool
+    int
     at(unsigned long time, handler_t h, void *opaque = NULL)
-    {
+    {   
+        struct task *_task;
         const unsigned long now = time_func();
-        return add_task(now, time - now, h, opaque);
+        _task = add_task(now, time - now, h, opaque);
+        return _task->id;
     }
 
     /* Calls handler with opaque as argument every interval units of time */
-    bool
+    int
     every(unsigned long interval, handler_t h, void *opaque = NULL)
     {
-        return add_task(time_func(), interval, h, opaque, interval);
+        struct task *_task;
+        _task = add_task(time_func(), interval, h, opaque, interval);
+        return _task->id;
+    }
+
+    /* Cancel a task by id*/
+    bool
+    cancel(int id)
+    {
+       for (size_t i = 0; i < max_tasks; ++i) {
+            struct task * const task = &tasks[i];
+            if (id == task->id) {
+                remove(task);
+            }
+       }
     }
 
     /* Ticks the timer forward - call this function in loop() */
@@ -104,6 +123,7 @@ class Timer {
   private:
 
     struct task {
+        int id;        
         handler_t handler; /* task handler callback func */
         void *opaque; /* argument given to the callback handler */
         unsigned long start,
@@ -115,6 +135,7 @@ class Timer {
     void
     remove(struct task *task)
     {
+        task->id = 0;
         task->handler = NULL;
         task->opaque = NULL;
         task->start = 0;
@@ -143,6 +164,7 @@ class Timer {
 
         if (!slot) return NULL;
 
+        slot->id = random(32767);
         slot->handler = h;
         slot->opaque = opaque;
         slot->start = start;
