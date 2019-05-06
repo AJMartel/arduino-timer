@@ -61,7 +61,7 @@ class Timer {
     {
          struct task *_task;
          _task = add_task(time_func(), delay, h, opaque);
-         return _task->id;
+         return (_task) ? _task->id : 0;
     }
 
     /* Calls handler with opaque as argument at time */
@@ -71,7 +71,7 @@ class Timer {
         struct task *_task;
         const unsigned long now = time_func();
         _task = add_task(now, time - now, h, opaque);
-        return _task->id;
+        return (_task) ? _task->id : 0;
     }
 
     /* Calls handler with opaque as argument every interval units of time */
@@ -80,7 +80,7 @@ class Timer {
     {
         struct task *_task;
         _task = add_task(time_func(), interval, h, opaque, interval);
-        return _task->id;
+        return (_task) ? _task->id : 0;
     }
 
     /* Cancel a task by id*/
@@ -175,11 +175,9 @@ class Timer {
     {
         struct task * const slot = next_task_slot();
 
-        if (!slot) 
-            slot->id = 0;    
-        else
-            slot->id = next_task_id();//random(2147483646);
-            
+        if (!slot) return NULL;  
+        
+        slot->id = next_task_id();    
         slot->handler = h;
         slot->opaque = opaque;
         slot->start = start;
