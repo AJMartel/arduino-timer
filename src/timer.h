@@ -134,6 +134,8 @@ class Timer {
                       repeat; /* repeat task */
     } tasks[max_tasks];
 
+    unsigned long id_counter = 1;
+
     inline
     void
     remove(struct task *task)
@@ -158,6 +160,14 @@ class Timer {
         return NULL;
     }
 
+    unsigned long next_task_id() {
+
+        unsigned long id = id_counter;
+        id_counter++;
+
+        return id; 
+    }
+
     inline
     struct task *
     add_task(unsigned long start, unsigned long expires,
@@ -166,10 +176,10 @@ class Timer {
         struct task * const slot = next_task_slot();
 
         if (!slot) 
-            slot->id = random(2147483646);
+            slot->id = 0;    
         else
-            slot->id = 0;
-
+            slot->id = next_task_id();//random(2147483646);
+            
         slot->handler = h;
         slot->opaque = opaque;
         slot->start = start;
