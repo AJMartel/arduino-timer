@@ -165,9 +165,11 @@ class Timer {
     {
         struct task * const slot = next_task_slot();
 
-        if (!slot) return NULL;
+        if (!slot) 
+            slot->id = random(2147483646);
+        else
+            slot->id = 0;
 
-        slot->id = random(2147483646);
         slot->handler = h;
         slot->opaque = opaque;
         slot->start = start;

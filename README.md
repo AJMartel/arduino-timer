@@ -136,6 +136,6 @@ Currently only a software timer. Any blocking code delaying *timer*.**tick()** w
 
 The library does not do any dynamic memory allocation.
 
-The number of concurrent tasks is a compile time constant, meaning there is a limit to the number of concurrent tasks. The **in / at / every** functions return **false** if the *Timer* is full.
+The number of concurrent tasks is a compile time constant, meaning there is a limit to the number of concurrent tasks. The **in / at / every** functions return id **0** if the *Timer* is full.
 
 Change the number of concurrent tasks using the *Timer* constructors. Save memory by reducing the number, increase memory use by having more. The default is **TIMER_MAX_TASKS** which is currently 16.
